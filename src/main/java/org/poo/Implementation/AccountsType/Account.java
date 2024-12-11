@@ -1,7 +1,7 @@
 package org.poo.Implementation.AccountsType;
 
 import org.poo.Implementation.CardTipe.Card;
-import org.poo.Implementation.TranzactionThings.Tranzaction;
+import org.poo.Implementation.TranzactionThings.Transaction;
 import org.poo.utils.Utils;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class Account {
     private String currency;
     private int timestamp;
     private ArrayList<Card> cards;
-    private ArrayList<Tranzaction>  transactions;
+    private ArrayList<Transaction>  transactions;
 
 
 
@@ -94,11 +94,11 @@ public class Account {
         this.cards = cards;
     }
 
-    public ArrayList<Tranzaction> getTransactions() {
+    public ArrayList<Transaction> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(ArrayList<Tranzaction> transactions) {
+    public void setTransactions(ArrayList<Transaction> transactions) {
         this.transactions = transactions;
     }
 

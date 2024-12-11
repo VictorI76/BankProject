@@ -1,11 +1,15 @@
 package org.poo.Implementation;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.poo.Implementation.AccountsType.Account;
 import org.poo.Implementation.CardTipe.Card;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+@Data
 public class Bank {
     private ArrayList<Account> accountsList;
     private HashMap<String, Account> accountsMap; // IBAN -> cont
@@ -14,14 +18,6 @@ public class Bank {
     private ArrayList<Card> cardsList;
     private HashMap<String, Card> cardsMap; // numar card -> card
     private Exchange exchange;
-
-    public Exchange getExchange() {
-        return exchange;
-    }
-
-    public void setExchange(Exchange exchange) {
-        this.exchange = exchange;
-    }
 
     public Bank() {
         accountsMap = new HashMap<String, Account>();
@@ -47,51 +43,4 @@ public class Bank {
         this.cardsList.add(card);
     }
 
-    public ArrayList<Account> getAccountsList() {
-        return accountsList;
-    }
-
-    public void setAccountsList(ArrayList<Account> accountsList) {
-        this.accountsList = accountsList;
-    }
-
-    public HashMap<String, Account> getAccountsMap() {
-        return accountsMap;
-    }
-
-    public void setAccountsMap(HashMap<String, Account> accountsMap) {
-        this.accountsMap = accountsMap;
-    }
-
-    public ArrayList<User> getUsersList() {
-        return usersList;
-    }
-
-    public void setUsersList(ArrayList<User> usersList) {
-        this.usersList = usersList;
-    }
-
-    public HashMap<String, User> getUsersMap() {
-        return usersMap;
-    }
-
-    public void setUsersMap(HashMap<String, User> usersMap) {
-        this.usersMap = usersMap;
-    }
-
-    public ArrayList<Card> getCardsList() {
-        return cardsList;
-    }
-
-    public void setCardsList(ArrayList<Card> cardsList) {
-        this.cardsList = cardsList;
-    }
-
-    public HashMap<String, Card> getCardsMap() {
-        return cardsMap;
-    }
-
-    public void setCardsMap(HashMap<String, Card> cardsMap) {
-        this.cardsMap = cardsMap;
-    }
 }
