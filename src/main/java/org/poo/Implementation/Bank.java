@@ -1,9 +1,7 @@
-package org.poo.Implementation.BankThings;
+package org.poo.Implementation;
 
 import org.poo.Implementation.AccountsType.Account;
 import org.poo.Implementation.CardTipe.Card;
-import org.poo.Implementation.Exchange;
-import org.poo.Implementation.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;

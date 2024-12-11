@@ -3,9 +3,9 @@ package org.poo.main;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.poo.Implementation.BankThings.Bank;
-import org.poo.Implementation.BankThings.BankActions;
-import org.poo.Implementation.CommandsHandler;
+import org.poo.Implementation.Bank;
+import org.poo.Implementation.CommandSistem.CommandHandler;
+import org.poo.Implementation.DataParser;
 import org.poo.checker.Checker;
 import org.poo.checker.CheckerConstants;
 import org.poo.fileio.ObjectInput;
@@ -78,12 +78,14 @@ public final class Main {
 
         ArrayNode output = objectMapper.createArrayNode();
 
-        CommandsHandler commandsHandler = new CommandsHandler();
-        BankActions bank = new BankActions();
 
-        commandsHandler.dataParser(inputData, bank);
+        Bank bank = new Bank();
 
-        commandsHandler.CommandCenter(inputData.getCommands(), bank, output);
+        DataParser.parser(inputData, bank);
+
+//        oldCommandsHandler.CommandCenter(inputData.getCommands(), bank, output);
+
+        CommandHandler.commandRunner(inputData.getCommands(), bank, output);
 
         /*
          * TODO Implement your function here

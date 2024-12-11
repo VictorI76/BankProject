@@ -1,7 +1,7 @@
 package org.poo.Implementation.AccountsType;
 
 import org.poo.Implementation.CardTipe.Card;
-import org.poo.Implementation.Tranzaction;
+import org.poo.Implementation.TranzactionThings.Tranzaction;
 import org.poo.utils.Utils;
 
 import java.util.ArrayList;
@@ -9,16 +9,20 @@ import java.util.ArrayList;
 public class Account {
     private String accountIBAN;
     private double balance; // (practic) aici tin cati bani sunt in cont
+    private double minBalance;
     private String email;
     private String currency;
     private int timestamp;
     private ArrayList<Card> cards;
     private ArrayList<Tranzaction>  transactions;
 
+
+
     public Account(String email, String currency, int timestamp) {
         this.accountIBAN = Utils.generateIBAN();
         System.out.println("Account IBAN: " + accountIBAN + "account timestamp: " + timestamp);
         this.balance = 0;
+        this.minBalance = 0;
         this.email = email;
         this.currency = currency;
         this.timestamp = timestamp;
@@ -40,6 +44,14 @@ public class Account {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public double getMinBalance() {
+        return minBalance;
+    }
+
+    public void setMinBalance(double minBalance) {
+        this.minBalance = minBalance;
     }
 
     public void increaseBalance(double amount) {
