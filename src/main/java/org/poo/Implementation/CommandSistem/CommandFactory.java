@@ -18,6 +18,9 @@ public class CommandFactory {
             case "payOnline" -> new PayOnline(bank, commandInput, output);
             case "setMinimumBalance" -> new SetMinimumBalance(bank, commandInput);
             case "sendMoney" -> new SendMoney(bank, commandInput);
+            case "printTransactions" -> new PrintTransaction(bank, commandInput, output);
+            case "setAlias" -> new SetAlias(bank, commandInput);
+            case "checkCardStatus" -> new CheckCardStatus(bank, commandInput, output);
             default -> null;
         };
     }

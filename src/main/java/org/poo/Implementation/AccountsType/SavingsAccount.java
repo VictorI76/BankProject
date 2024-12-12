@@ -9,6 +9,6 @@ public class SavingsAccount extends Account {
     }
 
     public String accountType() {
-        return "one time card"; // aflam ce messaj punem mai incolo!
+        return "savings";
     }
 }

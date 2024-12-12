@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.Implementation.AccountsType.Account;
 import org.poo.Implementation.CardTipe.Card;
+import org.poo.Implementation.TranzactionThings.Transaction;
 
 import java.util.ArrayList;
 
@@ -85,6 +86,82 @@ public class OutputCreator {
         accountNode.put("timestamp", timestamp);
         objectNode.set("output", accountNode);
         objectNode.put("timestamp", timestamp);
+        output.add(objectNode);
+    }
+
+    public void notDeleteAccount(ArrayNode output, int timestamp) {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode objectNode = mapper.createObjectNode();
+        objectNode.put("command", "deleteAccount");
+        ObjectNode accountNode = mapper.createObjectNode();
+        accountNode.put("error", "Account couldn't be deleted - see org.poo.transactions for details");
+        accountNode.put("timestamp", timestamp);
+        objectNode.set("output", accountNode);
+        objectNode.put("timestamp", timestamp);
+        output.add(objectNode);
+    }
+
+    public void cardNotFound(ArrayNode output, String command, int timestamp) {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode objectNode = mapper.createObjectNode();
+        objectNode.put("command", command);
+        ObjectNode cardFormat = mapper.createObjectNode();
+        cardFormat.put("timestamp", timestamp);
+        cardFormat.put("description", "Card not found");
+        objectNode.set("output", cardFormat);
+        objectNode.put("timestamp", timestamp);
+
+        output.add(objectNode);
+    }
+
+
+    public ObjectNode transactionNode(Transaction transaction) {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode objectNode = mapper.createObjectNode();
+        objectNode.put("timestamp", transaction.getTimestamp());
+        objectNode.put("description", transaction.getDescription());
+        if (transaction.getSenderIBAN() != null) {
+            objectNode.put("senderIBAN", transaction.getSenderIBAN());
+        }
+        if (transaction.getReceiverIBAN() != null) {
+            objectNode.put("receiverIBAN", transaction.getReceiverIBAN());
+        }
+        if (transaction.getFunds() != 0) {
+            objectNode.put("amount", transaction.getFunds());
+        }
+        if (transaction.getFundsString() != null) {
+            objectNode.put("amount", transaction.getFundsString());
+        }
+        if (transaction.getTransferType() != null) {
+            objectNode.put("transferType", transaction.getTransferType());
+        }
+        if (transaction.getCard() != null) {
+            objectNode.put("card", transaction.getCard());
+        }
+        if (transaction.getCardHolder() != null) {
+            objectNode.put("cardHolder", transaction.getCardHolder());
+        }
+        if (transaction.getAccountIBAN() != null) {
+            objectNode.put("account", transaction.getAccountIBAN());
+        }
+        if (transaction.getCommerciant() != null) {
+            objectNode.put("commerciant", transaction.getCommerciant());
+        }
+
+        return objectNode;
+    }
+
+    public void transactionsList(ArrayNode output, ArrayList<Transaction> transactions, int timestamp) {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode objectNode = mapper.createObjectNode();
+        objectNode.put("command", "printTransactions");
+        ArrayNode arrayNode = mapper.createArrayNode();
+        for (Transaction transaction : transactions) {
+            arrayNode.add(transactionNode(transaction));
+        }
+        objectNode.set("output", arrayNode);
+        objectNode.put("timestamp", timestamp);
+
         output.add(objectNode);
     }
 }

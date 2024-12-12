@@ -20,6 +20,7 @@ public class User {
         this.lastName = userInput.getLastName();
         this.email = userInput.getEmail();
         this.accounts = new ArrayList<>();
+        this.transactions = new ArrayList<>();
     }
 
     public String getFirstName() {

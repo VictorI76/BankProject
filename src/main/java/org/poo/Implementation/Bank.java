@@ -13,15 +13,17 @@ import java.util.HashMap;
 public class Bank {
     private ArrayList<Account> accountsList;
     private HashMap<String, Account> accountsMap; // IBAN -> cont
+    private HashMap<String, String> alisaMap;// alias -> IBAN
     private ArrayList<User> usersList;
     private HashMap<String, User> usersMap; // email -> user
     private ArrayList<Card> cardsList;
-    private HashMap<String, Card> cardsMap; // numar card -> card
+    private HashMap<String, Card> cardsMap;// numar card -> card
     private Exchange exchange;
 
     public Bank() {
         accountsMap = new HashMap<String, Account>();
         accountsList = new ArrayList<>();
+        alisaMap = new HashMap<String, String>();
         usersMap = new HashMap<String, User>();
         usersList = new ArrayList<>();
         cardsMap = new HashMap<String, Card>();
