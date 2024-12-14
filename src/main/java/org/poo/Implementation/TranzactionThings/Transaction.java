@@ -2,6 +2,9 @@ package org.poo.Implementation.TranzactionThings;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 public class Transaction {
     private int timestamp;
@@ -15,6 +18,9 @@ public class Transaction {
     private String card;
     private String cardHolder;
     private String commerciant;
+    private String currency;
+    private String error;
+    private List<String> involvedAccounts;
 
     Transaction (TransactionBuilder transactionBuilder) {
         timestamp = transactionBuilder.getTimestamp();
@@ -28,5 +34,8 @@ public class Transaction {
         card = transactionBuilder.getCard();
         cardHolder = transactionBuilder.getCardHolder();
         commerciant = transactionBuilder.getCommerciant();
+        currency = transactionBuilder.getCurrency();
+        error = transactionBuilder.getError();
+        involvedAccounts = transactionBuilder.getInvolvedAccounts();
     }
 }

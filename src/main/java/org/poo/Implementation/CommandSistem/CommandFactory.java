@@ -21,7 +21,12 @@ public class CommandFactory {
             case "printTransactions" -> new PrintTransaction(bank, commandInput, output);
             case "setAlias" -> new SetAlias(bank, commandInput);
             case "checkCardStatus" -> new CheckCardStatus(bank, commandInput, output);
-            default -> null;
+            case "changeInterestRate" -> new ChangeInterestRate(bank, commandInput, output);
+            case "splitPayment" -> new SplitPayment(bank, commandInput);
+            case "report" -> new Report(bank, commandInput, output);
+            case "spendingsReport" -> new SpendingsReport(bank, commandInput, output);
+            case "addInterest" -> new AddInterest(bank, commandInput, output);
+            default -> new DefoultCommand();
         };
     }
 }

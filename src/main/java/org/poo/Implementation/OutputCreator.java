@@ -7,7 +7,7 @@ import org.poo.Implementation.AccountsType.Account;
 import org.poo.Implementation.CardTipe.Card;
 import org.poo.Implementation.TranzactionThings.Transaction;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class OutputCreator {
 
@@ -101,6 +101,19 @@ public class OutputCreator {
         output.add(objectNode);
     }
 
+    public void notFoundAccount(ArrayNode output, int timestamp, String command) {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode objectNode = mapper.createObjectNode();
+        objectNode.put("command", command);
+        ObjectNode accountNode = mapper.createObjectNode();
+        accountNode.put("description", "Account not found");
+        accountNode.put("timestamp", timestamp);
+        objectNode.set("output", accountNode);
+        objectNode.put("timestamp", timestamp);
+
+        output.add(objectNode);
+    }
+
     public void cardNotFound(ArrayNode output, String command, int timestamp) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode objectNode = mapper.createObjectNode();
@@ -114,6 +127,14 @@ public class OutputCreator {
         output.add(objectNode);
     }
 
+    private ArrayNode transactionAccountList(List<String> accounts) {
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayNode arrayNode = mapper.createArrayNode();
+        for (int i = 0; i < accounts.size(); i++) {
+            arrayNode.add(accounts.get(i));
+        }
+        return arrayNode;
+    }
 
     public ObjectNode transactionNode(Transaction transaction) {
         ObjectMapper mapper = new ObjectMapper();
@@ -128,6 +149,9 @@ public class OutputCreator {
         }
         if (transaction.getFunds() != 0) {
             objectNode.put("amount", transaction.getFunds());
+        }
+        if (transaction.getCurrency() != null) {
+            objectNode.put("currency", transaction.getCurrency());
         }
         if (transaction.getFundsString() != null) {
             objectNode.put("amount", transaction.getFundsString());
@@ -147,6 +171,15 @@ public class OutputCreator {
         if (transaction.getCommerciant() != null) {
             objectNode.put("commerciant", transaction.getCommerciant());
         }
+        if (transaction.getFunds() != 0) {
+            objectNode.put("amount", transaction.getFunds());
+        }
+        if (transaction.getInvolvedAccounts() != null) {
+            objectNode.set("involvedAccounts", transactionAccountList(transaction.getInvolvedAccounts()));
+        }
+        if (transaction.getError() != null) {
+            objectNode.put("error", transaction.getError());
+        }
 
         return objectNode;
     }
@@ -164,4 +197,95 @@ public class OutputCreator {
 
         output.add(objectNode);
     }
+
+    private ArrayNode reportTransaction(ArrayList<Transaction> transactions, int startTimestamp, int endTimestamp) {
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayNode arrayNode = mapper.createArrayNode();
+        for (Transaction transaction : transactions) {
+            if (transaction.getTimestamp() >= startTimestamp && transaction.getTimestamp() <= endTimestamp) {
+                arrayNode.add(transactionNode(transaction));
+            }
+        }
+
+        return arrayNode;
+    }
+
+    public void reportList(ArrayNode output, Account account, int startTimestamp, int endTimestamp, int timestamp) {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode objectNode = mapper.createObjectNode();
+        objectNode.put("command", "report");
+        ObjectNode outputNode = mapper.createObjectNode();
+        outputNode.put("IBAN", account.getAccountIBAN());
+        outputNode.put("balance", account.getBalance());
+        outputNode.put("currency", account.getCurrency());
+        outputNode.set("transactions", reportTransaction(account.getTransactions(), startTimestamp, endTimestamp));
+        objectNode.set("output", outputNode);
+        objectNode.put("timestamp", timestamp);
+
+        output.add(objectNode);
+    }
+
+    private ArrayNode spendingsReportTransaction(ArrayList<Transaction> transactions, int startTimestamp, int endTimestamp) {
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayNode arrayNode = mapper.createArrayNode();
+        for (Transaction transaction : transactions) {
+            if (transaction.getTimestamp() >= startTimestamp && transaction.getTimestamp() <= endTimestamp && transaction.getCommerciant() != null) {
+                arrayNode.add(transactionNode(transaction));
+            }
+        }
+
+        return arrayNode;
+    }
+
+    private ArrayNode spendingsReportCommerciants(ArrayList<Transaction> transactions, int startTimestamp, int endTimestamp) {
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayNode arrayNode = mapper.createArrayNode();
+        TreeSet<String> commerciants = new TreeSet<>();
+        HashMap<String, Transaction> stringTransactionMap = new HashMap<>();
+        for (Transaction transaction : transactions) {
+            if (transaction.getTimestamp() >= startTimestamp && transaction.getTimestamp() <= endTimestamp && transaction.getCommerciant() != null) {
+                commerciants.add(transaction.getCommerciant());
+                stringTransactionMap.put(transaction.getCommerciant(), transaction);
+            }
+        }
+
+        for (String commerciant : commerciants) {
+            ObjectNode objectNode = mapper.createObjectNode();
+            objectNode.put("commerciant", commerciant);
+            objectNode.put("total", stringTransactionMap.get(commerciant).getFunds());
+            arrayNode.add(objectNode);
+        }
+
+        return arrayNode;
+    }
+
+    public void spendingsReportList(ArrayNode output, Account account, int startTimestamp, int endTimestamp, int timestamp) {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode objectNode = mapper.createObjectNode();
+        objectNode.put("command", "spendingsReport");
+        ObjectNode outputNode = mapper.createObjectNode();
+        outputNode.put("IBAN", account.getAccountIBAN());
+        outputNode.put("balance", account.getBalance());
+        outputNode.put("currency", account.getCurrency());
+        outputNode.set("transactions", spendingsReportTransaction(account.getTransactions(), startTimestamp, endTimestamp));
+        outputNode.set("commerciants", spendingsReportCommerciants(account.getTransactions(), startTimestamp, endTimestamp));
+        objectNode.set("output", outputNode);
+        objectNode.put("timestamp", timestamp);
+
+        output.add(objectNode);
+    }
+
+    public void notSavingsAccount(ArrayNode output, int timestamp, String command) {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode objectNode = mapper.createObjectNode();
+        objectNode.put("command", command);
+        ObjectNode outputNode = mapper.createObjectNode();
+        outputNode.put("description", "This is not a savings account");
+        outputNode.put("timestamp", timestamp);
+        objectNode.set("output", outputNode);
+        objectNode.put("timestamp", timestamp);
+
+        output.add(objectNode);
+    }
+
 }

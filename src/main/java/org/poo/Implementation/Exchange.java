@@ -47,6 +47,6 @@ public class Exchange {
         double fromRate = this.rates.get(from);
         double toRate = this.rates.get(to);
 
-        return fromRate / toRate;
+        return toRate / fromRate;
     }
 }
