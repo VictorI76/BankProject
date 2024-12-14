@@ -288,4 +288,16 @@ public class OutputCreator {
         output.add(objectNode);
     }
 
+    public void notForSavingsAccounts(ArrayNode output, int timestamp) {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode objectNode = mapper.createObjectNode();
+        objectNode.put("command", "spendingsReport");
+        ObjectNode outputNode = mapper.createObjectNode();
+        outputNode.put("error", "This kind of report is not supported for a saving account");
+        objectNode.set("output", outputNode);
+        objectNode.put("timestamp", timestamp);
+
+        output.add(objectNode);
+    }
+
 }

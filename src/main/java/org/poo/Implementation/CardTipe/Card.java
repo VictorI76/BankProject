@@ -13,7 +13,6 @@ public class Card {
         this.accountIBAN = accountIBAN;
         this.email = email;
         this.number = Utils.generateCardNumber();
-        System.out.println("cardul are numarul == " + number + "pointerul este ================ " + this);
         this.timestamp = timestamp;
         this.status = "active";
     }

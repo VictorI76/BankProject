@@ -22,7 +22,6 @@ public class Account {
 
     public Account(String email, String currency, int timestamp) {
         this.accountIBAN = Utils.generateIBAN();
-        System.out.println("Account IBAN: " + accountIBAN + "account timestamp: " + timestamp);
         this.balance = 0;
         this.minBalance = 0;
         this.email = email;
