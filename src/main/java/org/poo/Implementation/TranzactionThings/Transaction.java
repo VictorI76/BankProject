@@ -2,27 +2,26 @@ package org.poo.Implementation.TranzactionThings;
 
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class Transaction {
-    private int timestamp;
-    private String description;
-    private String senderIBAN;
-    private String receiverIBAN;
-    private String accountIBAN;
-    private double funds;
-    private String fundsString;
-    private String transferType;
-    private String card;
-    private String cardHolder;
-    private String commerciant;
-    private String currency;
-    private String error;
-    private List<String> involvedAccounts;
+public final class Transaction {
+    private final int timestamp;
+    private final String description;
+    private final String senderIBAN;
+    private final String receiverIBAN;
+    private final String accountIBAN;
+    private final double funds;
+    private final String fundsString;
+    private final String transferType;
+    private final String card;
+    private final String cardHolder;
+    private final String commerciant;
+    private final String currency;
+    private final String error;
+    private final List<String> involvedAccounts;
 
-    Transaction (TransactionBuilder transactionBuilder) {
+    Transaction(final TransactionBuilder transactionBuilder) {
         timestamp = transactionBuilder.getTimestamp();
         description = transactionBuilder.getDescription();
         senderIBAN = transactionBuilder.getSenderIBAN();

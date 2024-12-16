@@ -3,8 +3,9 @@ package org.poo.utils;
 import java.util.Random;
 
 public final class Utils {
-    public Utils() {
-        // Checkstyle error free constructor
+    private Utils() {
+        throw new UnsupportedOperationException(
+                "This is a utility class and cannot be instantiated");
     }
 
     private static final int IBAN_SEED = 1;
@@ -17,11 +18,6 @@ public final class Utils {
 
     private static Random ibanRandom = new Random(IBAN_SEED);
     private static Random cardRandom = new Random(CARD_SEED);
-
-//    public Utils() {
-//        ibanRandom = new Random(IBAN_SEED);
-//        cardRandom = new Random(CARD_SEED);
-//    }
 
     /**
      * Utility method for generating an IBAN code.

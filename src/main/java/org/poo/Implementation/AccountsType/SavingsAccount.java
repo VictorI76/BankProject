@@ -1,20 +1,32 @@
 package org.poo.Implementation.AccountsType;
 
-public class SavingsAccount extends Account {
+public final class SavingsAccount extends Account {
 
-    public SavingsAccount(double interestRate, String email, String currency, int timestamp) {
+    public SavingsAccount(final double interestRate, final String email,
+                          final String currency, final int timestamp) {
         super(email, currency, timestamp);
         setInterestRate(interestRate);
     }
 
-    public void modifyInterest(double interestRate) {
-        setInterestRate(interestRate);
+    /**
+     * This function modify the current interest.
+     * @param interestRateModifier
+     */
+    public void modifyInterest(final double interestRateModifier) {
+        setInterestRate(interestRateModifier);
     }
 
+    /**
+     * This function add interest.
+     */
     public void addInterest() {
         setBalance(getBalance() + getInterestRate() * getBalance());
     }
 
+    /**
+     * This function return the account type.
+     * @return
+     */
     public String accountType() {
         return "savings";
     }

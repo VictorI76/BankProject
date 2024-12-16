@@ -7,11 +7,21 @@ import org.poo.Implementation.AccountsType.Account;
 import org.poo.Implementation.CardTipe.Card;
 import org.poo.Implementation.TranzactionThings.Transaction;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeSet;
+import java.util.HashMap;
 
-public class OutputCreator {
+public final class OutputCreator {
 
-    public ObjectNode cardShow(ArrayNode output, Card card) {
+    /**
+     * It is a helper method creating the
+     * output format for a card.
+     * @param output
+     * @param card
+     * @return
+     */
+    private ObjectNode cardShow(final ArrayNode output, final Card card) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode objectNode = mapper.createObjectNode();
         objectNode.put("cardNumber", card.getNumber());
@@ -20,7 +30,13 @@ public class OutputCreator {
         return objectNode;
     }
 
-    public void cardDoseNotExist(ArrayNode output, int timestamp) {
+    /**
+     * Is a method that create the error
+     * output for a card that is messing.
+     * @param output
+     * @param timestamp
+     */
+    public void cardDoseNotExist(final ArrayNode output, final int timestamp) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode objectNode = mapper.createObjectNode();
         ObjectNode cardFormat = mapper.createObjectNode();
@@ -33,7 +49,14 @@ public class OutputCreator {
         output.add(objectNode);
     }
 
-    public ObjectNode accountShow(ArrayNode output, Account account) {
+    /**
+     * It is a helper method that create the
+     * output format of an account.
+     * @param output
+     * @param account
+     * @return
+     */
+    private ObjectNode accountShow(final ArrayNode output, final Account account) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode objectNode = mapper.createObjectNode();
         objectNode.put("IBAN", account.getAccountIBAN());
@@ -48,7 +71,14 @@ public class OutputCreator {
         return objectNode;
     }
 
-    public ObjectNode usersShow(ArrayNode output, User user) {
+    /**
+     * It is a helper method that create the
+     * output format of a user.
+     * @param output
+     * @param user
+     * @return
+     */
+    private ObjectNode usersShow(final ArrayNode output, final User user) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode objectNode = mapper.createObjectNode();
         objectNode.put("firstName", user.getFirstName());
@@ -63,7 +93,15 @@ public class OutputCreator {
         return objectNode;
     }
 
-    public void usersList(ArrayNode output, ArrayList<User> users, int timestamp) {
+    /**
+     * This method create the user list for
+     * the "printUser" command.
+     * @param output
+     * @param users
+     * @param timestamp
+     */
+    public void usersList(final ArrayNode output,
+                          final ArrayList<User> users, final int timestamp) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode objectNode = mapper.createObjectNode();
         objectNode.put("command", "printUsers");
@@ -77,7 +115,14 @@ public class OutputCreator {
         output.add(objectNode);
     }
 
-    public void deleteAccount(ArrayNode output, int timestamp) {
+    /**
+     * This method send to the output a
+     * success message if an account was
+     * deleted.
+     * @param output
+     * @param timestamp
+     */
+    public void deleteAccount(final ArrayNode output, final int timestamp) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode objectNode = mapper.createObjectNode();
         objectNode.put("command", "deleteAccount");
@@ -89,19 +134,35 @@ public class OutputCreator {
         output.add(objectNode);
     }
 
-    public void notDeleteAccount(ArrayNode output, int timestamp) {
+    /**
+     * This method send to the output an
+     * error if an account could not be
+     * deleted.
+     * @param output
+     * @param timestamp
+     */
+    public void notDeleteAccount(final ArrayNode output, final int timestamp) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode objectNode = mapper.createObjectNode();
         objectNode.put("command", "deleteAccount");
         ObjectNode accountNode = mapper.createObjectNode();
-        accountNode.put("error", "Account couldn't be deleted - see org.poo.transactions for details");
+        accountNode.put("error",
+                "Account couldn't be deleted - see org.poo.transactions for details");
         accountNode.put("timestamp", timestamp);
         objectNode.set("output", accountNode);
         objectNode.put("timestamp", timestamp);
         output.add(objectNode);
     }
 
-    public void notFoundAccount(ArrayNode output, int timestamp, String command) {
+    /**
+     * This method send and error message to
+     * the output if an account was not found.
+     * @param output
+     * @param timestamp
+     * @param command
+     */
+    public void notFoundAccount(final ArrayNode output,
+                                final int timestamp, final String command) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode objectNode = mapper.createObjectNode();
         objectNode.put("command", command);
@@ -114,7 +175,14 @@ public class OutputCreator {
         output.add(objectNode);
     }
 
-    public void cardNotFound(ArrayNode output, String command, int timestamp) {
+    /**
+     * This method send and error message to
+     * the output if a card was not found.
+     * @param output
+     * @param timestamp
+     * @param command
+     */
+    public void cardNotFound(final ArrayNode output, final String command, final int timestamp) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode objectNode = mapper.createObjectNode();
         objectNode.put("command", command);
@@ -127,16 +195,29 @@ public class OutputCreator {
         output.add(objectNode);
     }
 
-    private ArrayNode transactionAccountList(List<String> accounts) {
+    /**
+     * It is a helper method that create an
+     * array of all account that participated
+     * in split payment.
+     * @param accounts
+     * @return
+     */
+    private ArrayNode transactionAccountList(final List<String> accounts) {
         ObjectMapper mapper = new ObjectMapper();
         ArrayNode arrayNode = mapper.createArrayNode();
-        for (int i = 0; i < accounts.size(); i++) {
-            arrayNode.add(accounts.get(i));
+        for (String account : accounts) {
+            arrayNode.add(account);
         }
         return arrayNode;
     }
 
-    public ObjectNode transactionNode(Transaction transaction) {
+    /**
+     * It is a helper method that create
+     * specific format for any transaction.
+     * @param transaction
+     * @return
+     */
+    private ObjectNode transactionNode(final Transaction transaction) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode objectNode = mapper.createObjectNode();
         objectNode.put("timestamp", transaction.getTimestamp());
@@ -175,7 +256,8 @@ public class OutputCreator {
             objectNode.put("amount", transaction.getFunds());
         }
         if (transaction.getInvolvedAccounts() != null) {
-            objectNode.set("involvedAccounts", transactionAccountList(transaction.getInvolvedAccounts()));
+            objectNode.set("involvedAccounts",
+                    transactionAccountList(transaction.getInvolvedAccounts()));
         }
         if (transaction.getError() != null) {
             objectNode.put("error", transaction.getError());
@@ -184,7 +266,15 @@ public class OutputCreator {
         return objectNode;
     }
 
-    public void transactionsList(ArrayNode output, ArrayList<Transaction> transactions, int timestamp) {
+    /**
+     * This method crate the transaction list
+     * of a user.
+     * @param output
+     * @param transactions
+     * @param timestamp
+     */
+    public void transactionsList(final ArrayNode output,
+                                 final ArrayList<Transaction> transactions, final int timestamp) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode objectNode = mapper.createObjectNode();
         objectNode.put("command", "printTransactions");
@@ -198,11 +288,22 @@ public class OutputCreator {
         output.add(objectNode);
     }
 
-    private ArrayNode reportTransaction(ArrayList<Transaction> transactions, int startTimestamp, int endTimestamp) {
+    /**
+     * It is a helper method that create a
+     * list of all transaction from a time
+     * interval.
+     * @param transactions
+     * @param startTimestamp
+     * @param endTimestamp
+     * @return
+     */
+    private ArrayNode reportTransaction(final ArrayList<Transaction> transactions,
+                                        final int startTimestamp, final int endTimestamp) {
         ObjectMapper mapper = new ObjectMapper();
         ArrayNode arrayNode = mapper.createArrayNode();
         for (Transaction transaction : transactions) {
-            if (transaction.getTimestamp() >= startTimestamp && transaction.getTimestamp() <= endTimestamp) {
+            if (transaction.getTimestamp() >= startTimestamp
+                    && transaction.getTimestamp() <= endTimestamp) {
                 arrayNode.add(transactionNode(transaction));
             }
         }
@@ -210,7 +311,18 @@ public class OutputCreator {
         return arrayNode;
     }
 
-    public void reportList(ArrayNode output, Account account, int startTimestamp, int endTimestamp, int timestamp) {
+    /**
+     * This method create a report of all
+     * transaction in a time interval for
+     * an account.
+     * @param output
+     * @param account
+     * @param startTimestamp
+     * @param endTimestamp
+     * @param timestamp
+     */
+    public void reportList(final ArrayNode output, final Account account,
+                           final int startTimestamp, final int endTimestamp, final int timestamp) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode objectNode = mapper.createObjectNode();
         objectNode.put("command", "report");
@@ -218,18 +330,32 @@ public class OutputCreator {
         outputNode.put("IBAN", account.getAccountIBAN());
         outputNode.put("balance", account.getBalance());
         outputNode.put("currency", account.getCurrency());
-        outputNode.set("transactions", reportTransaction(account.getTransactions(), startTimestamp, endTimestamp));
+        outputNode.set("transactions", reportTransaction(account.getTransactions(),
+                startTimestamp, endTimestamp));
         objectNode.set("output", outputNode);
         objectNode.put("timestamp", timestamp);
 
         output.add(objectNode);
     }
 
-    private ArrayNode spendingsReportTransaction(ArrayList<Transaction> transactions, int startTimestamp, int endTimestamp) {
+    /**
+     * It is a helper method that create a
+     * list of all transaction from a time
+     * interval that ar payments to a
+     * commerciant.
+     * @param transactions
+     * @param startTimestamp
+     * @param endTimestamp
+     * @return
+     */
+    private ArrayNode spendingsReportTransaction(final ArrayList<Transaction> transactions,
+                                                 final int startTimestamp,
+                                                 final int endTimestamp) {
         ObjectMapper mapper = new ObjectMapper();
         ArrayNode arrayNode = mapper.createArrayNode();
         for (Transaction transaction : transactions) {
-            if (transaction.getTimestamp() >= startTimestamp && transaction.getTimestamp() <= endTimestamp && transaction.getCommerciant() != null) {
+            if (transaction.getTimestamp() >= startTimestamp && transaction.getTimestamp()
+                    <= endTimestamp && transaction.getCommerciant() != null) {
                 arrayNode.add(transactionNode(transaction));
             }
         }
@@ -237,13 +363,25 @@ public class OutputCreator {
         return arrayNode;
     }
 
-    private ArrayNode spendingsReportCommerciants(ArrayList<Transaction> transactions, int startTimestamp, int endTimestamp) {
+    /**
+     * It is a helper method that create
+     * list with only the payments to the
+     * commerciants.
+     * @param transactions
+     * @param startTimestamp
+     * @param endTimestamp
+     * @return
+     */
+    private ArrayNode spendingsReportCommerciants(final ArrayList<Transaction> transactions,
+                                                  final int startTimestamp,
+                                                  final int endTimestamp) {
         ObjectMapper mapper = new ObjectMapper();
         ArrayNode arrayNode = mapper.createArrayNode();
         TreeSet<String> commerciants = new TreeSet<>();
         HashMap<String, Transaction> stringTransactionMap = new HashMap<>();
         for (Transaction transaction : transactions) {
-            if (transaction.getTimestamp() >= startTimestamp && transaction.getTimestamp() <= endTimestamp && transaction.getCommerciant() != null) {
+            if (transaction.getTimestamp() >= startTimestamp && transaction.getTimestamp()
+                    <= endTimestamp && transaction.getCommerciant() != null) {
                 commerciants.add(transaction.getCommerciant());
                 stringTransactionMap.put(transaction.getCommerciant(), transaction);
             }
@@ -259,7 +397,18 @@ public class OutputCreator {
         return arrayNode;
     }
 
-    public void spendingsReportList(ArrayNode output, Account account, int startTimestamp, int endTimestamp, int timestamp) {
+    /**
+     * This method create a spending report
+     * including only payment transaction.
+     * @param output
+     * @param account
+     * @param startTimestamp
+     * @param endTimestamp
+     * @param timestamp
+     */
+    public void spendingsReportList(final ArrayNode output, final Account account,
+                                    final int startTimestamp,
+                                    final int endTimestamp, final int timestamp) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode objectNode = mapper.createObjectNode();
         objectNode.put("command", "spendingsReport");
@@ -267,15 +416,27 @@ public class OutputCreator {
         outputNode.put("IBAN", account.getAccountIBAN());
         outputNode.put("balance", account.getBalance());
         outputNode.put("currency", account.getCurrency());
-        outputNode.set("transactions", spendingsReportTransaction(account.getTransactions(), startTimestamp, endTimestamp));
-        outputNode.set("commerciants", spendingsReportCommerciants(account.getTransactions(), startTimestamp, endTimestamp));
+        outputNode.set("transactions", spendingsReportTransaction(account.getTransactions(),
+                startTimestamp, endTimestamp));
+        outputNode.set("commerciants", spendingsReportCommerciants(account.getTransactions(),
+                startTimestamp, endTimestamp));
         objectNode.set("output", outputNode);
         objectNode.put("timestamp", timestamp);
 
         output.add(objectNode);
     }
 
-    public void notSavingsAccount(ArrayNode output, int timestamp, String command) {
+    /**
+     * This method send to the output an
+     * error when a classic account is
+     * sent to and operation only for
+     * savings accounts.
+     * @param output
+     * @param timestamp
+     * @param command
+     */
+    public void notSavingsAccount(final ArrayNode output,
+                                  final int timestamp, final String command) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode objectNode = mapper.createObjectNode();
         objectNode.put("command", command);
@@ -288,7 +449,14 @@ public class OutputCreator {
         output.add(objectNode);
     }
 
-    public void notForSavingsAccounts(ArrayNode output, int timestamp) {
+    /**
+     * This method send to output an error
+     * when a spending report is requested
+     * for saving account.
+     * @param output
+     * @param timestamp
+     */
+    public void notForSavingsAccounts(final ArrayNode output, final int timestamp) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode objectNode = mapper.createObjectNode();
         objectNode.put("command", "spendingsReport");

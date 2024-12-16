@@ -1,7 +1,9 @@
 package org.poo.Implementation.CardTipe;
 
+import lombok.Data;
 import org.poo.utils.Utils;
 
+@Data
 public class Card {
     private String accountIBAN;
     private String email;
@@ -9,7 +11,7 @@ public class Card {
     private int timestamp;
     private String status;
 
-    public Card(String accountIBAN, String email, int timestamp) {
+    public Card(final String accountIBAN, final String email, final int timestamp) {
         this.accountIBAN = accountIBAN;
         this.email = email;
         this.number = Utils.generateCardNumber();
@@ -17,47 +19,10 @@ public class Card {
         this.status = "active";
     }
 
+    /**
+     * If the card is one time, regenerate it.
+     */
     public void refactorCard() {
         return;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public String getAccount() {
-        return accountIBAN;
-    }
-
-    public void setAccount(String accountIBAN) {
-        this.accountIBAN = accountIBAN;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(int timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

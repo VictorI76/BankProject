@@ -1,14 +1,16 @@
 package org.poo.Implementation.CardTipe;
 
-import org.poo.Implementation.AccountsType.Account;
 import org.poo.utils.Utils;
 
-public class OneTimeCard extends Card {
+public final class OneTimeCard extends Card {
 
-    public OneTimeCard(String accountIBAN, String email, int timestamp) {
+    public OneTimeCard(final String accountIBAN, final String email, final int timestamp) {
         super(accountIBAN, email, timestamp);
     }
 
+    /**
+     * This function regenerate the card.
+     */
     public void refactorCard() {
         this.setNumber(Utils.generateCardNumber());
     }
