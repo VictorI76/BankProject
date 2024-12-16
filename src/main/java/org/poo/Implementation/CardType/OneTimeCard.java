@@ -1,4 +1,4 @@
-package org.poo.Implementation.CardTipe;
+package org.poo.Implementation.CardType;
 
 import org.poo.utils.Utils;
 

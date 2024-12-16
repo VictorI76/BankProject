@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.Implementation.AccountsType.Account;
-import org.poo.Implementation.CardTipe.Card;
-import org.poo.Implementation.TranzactionThings.Transaction;
+import org.poo.Implementation.CardType.Card;
+import org.poo.Implementation.TransactionThings.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;

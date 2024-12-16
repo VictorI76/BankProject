@@ -1,4 +1,4 @@
-package org.poo.Implementation.CommandSistem;
+package org.poo.Implementation.CommandSystem;
 
 public abstract class Commands {
 

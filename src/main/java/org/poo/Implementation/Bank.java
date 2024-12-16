@@ -2,7 +2,7 @@ package org.poo.Implementation;
 
 import lombok.Data;
 import org.poo.Implementation.AccountsType.Account;
-import org.poo.Implementation.CardTipe.Card;
+import org.poo.Implementation.CardType.Card;
 
 import java.util.ArrayList;
 import java.util.HashMap;

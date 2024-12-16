@@ -1,4 +1,4 @@
-package org.poo.Implementation.TranzactionThings;
+package org.poo.Implementation.TransactionThings;
 
 import lombok.Data;
 

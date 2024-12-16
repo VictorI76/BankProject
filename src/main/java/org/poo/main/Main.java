@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.poo.Implementation.Bank;
-import org.poo.Implementation.CommandSistem.CommandHandler;
+import org.poo.Implementation.CommandSystem.CommandHandler;
 import org.poo.Implementation.DataParser;
 import org.poo.checker.Checker;
 import org.poo.checker.CheckerConstants;

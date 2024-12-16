@@ -1,8 +1,8 @@
 package org.poo.Implementation.AccountsType;
 
 import lombok.Data;
-import org.poo.Implementation.CardTipe.Card;
-import org.poo.Implementation.TranzactionThings.Transaction;
+import org.poo.Implementation.CardType.Card;
+import org.poo.Implementation.TransactionThings.Transaction;
 import org.poo.utils.Utils;
 
 import java.util.ArrayList;

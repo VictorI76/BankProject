@@ -1,4 +1,4 @@
-package org.poo.Implementation.CommandSistem;
+package org.poo.Implementation.CommandSystem;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.poo.Implementation.Bank;
